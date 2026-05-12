@@ -6,19 +6,38 @@ from datetime import datetime
 from config import BOT_TOKEN, CHAT_ID, THREAD_ID, THRESHOLD
 
 
+
 def get_hostname_ip():
     hostname = socket.gethostname()
+    ip = 'Unknown'
+    # Try to get the main non-localhost IP
     try:
-        ip = socket.gethostbyname(hostname)
+        for iface, addrs in psutil.net_if_addrs().items():
+            for addr in addrs:
+                if addr.family == socket.AF_INET and not addr.address.startswith('127.'):
+                    ip = addr.address
+                    break
+            if ip != 'Unknown':
+                break
     except Exception:
-        ip = 'Unknown'
+        pass
     return hostname, ip
+
 
 
 def get_disk_usage():
     usage = []
+    exclude_fs = {'squashfs', 'tmpfs', 'devtmpfs', 'overlay', 'snap', 'nsfs', 'proc', 'sysfs', 'cgroup', 'fuse.lxcfs'}
+    exclude_mounts = ['/snap', '/var/lib/snapd', '/run', '/dev', '/sys', '/proc']
     for part in psutil.disk_partitions():
-        if os.name == 'nt' or part.fstype == '':
+        # Exclude snap, virtual, and system mounts
+        if (
+            os.name == 'nt' or
+            part.fstype == '' or
+            any(part.mountpoint.startswith(m) for m in exclude_mounts) or
+            part.fstype in exclude_fs or
+            part.device.startswith('snap')
+        ):
             continue
         try:
             du = psutil.disk_usage(part.mountpoint)
