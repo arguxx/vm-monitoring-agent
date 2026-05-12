@@ -27,7 +27,7 @@ cp $(dirname "$0")/../systemd/*.timer /etc/systemd/system/
 
 # Enable and start services
 systemctl daemon-reload
-systemctl enable disk-agent.service disk-agent.timer disk-agent-update.service disk-agent-update.timer
-systemctl start disk-agent.timer disk-agent-update.timer
+systemctl enable disk-agent.service disk-agent.timer disk-agent-update.service disk-agent-update.timer cpu-mem-agent.service cpu-mem-agent.timer
+systemctl start disk-agent.timer disk-agent-update.timer cpu-mem-agent.timer
 
 echo "Disk agent installed and started."
