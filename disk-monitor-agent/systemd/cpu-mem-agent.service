@@ -1,11 +1,11 @@
 [Unit]
-Description=Disk Monitor Agent
+Description=CPU/Memory Monitor Agent
 After=network.target
 
 [Service]
 Type=simple
 EnvironmentFile=/etc/disk-agent.env
-ExecStart=/usr/bin/python3 /root/vm-monitoring-agent/disk-monitor-agent/agent/disk_check.py
+ExecStart=/usr/bin/python3 /root/vm-monitoring-agent/disk-monitor-agent/agent/cpu_mem_check.py
 Restart=on-failure
 
 [Install]
