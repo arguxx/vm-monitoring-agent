@@ -1,0 +1,12 @@
+[Unit]
+Description=Disk Monitor Agent
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/disk-agent.env
+ExecStart=/usr/bin/python3 /path/to/disk-monitor-agent/agent/disk_check.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

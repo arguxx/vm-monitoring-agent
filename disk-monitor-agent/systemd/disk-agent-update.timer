@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Disk Agent Update daily
+
+[Timer]
+OnCalendar=*-*-* 06:00:00
+Unit=disk-agent-update.service
+
+[Install]
+WantedBy=timers.target
