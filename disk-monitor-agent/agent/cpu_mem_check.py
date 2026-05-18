@@ -104,7 +104,3 @@ if __name__ == "__main__":
         send_daily_report()
     else:
         check_and_alert()
-
-
-if __name__ == "__main__":
-    check_and_alert()
